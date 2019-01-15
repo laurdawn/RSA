@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laurdawn.website.dao.RsaDao">
+
+  <sql id="key_Clause">
+  	id,
+  	publicKey,
+  	data,
+  	createTime
+  </sql>
+
+  <select id="selectById" parameterType="java.lang.Integer" resultType="com.laurdawn.website.entity.RSA">
+    select 
+	<include refid="key_Clause"></include>
+	from `key`
+    where id = #{id, jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPubKey" parameterType="java.lang.String" resultType="java.lang.String">
+    select 
+	data
+	from `key`
+    where publicKey = #{publicKey, jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertEntity" parameterType="com.laurdawn.website.entity.RSA">
+    insert into `key`
+    (
+  	publicKey,
+  	`data`,
+  	createTime
+    )
+    values
+    (
+  	#{publicKey, jdbcType=VARCHAR},
+  	#{data, jdbcType=VARCHAR},
+  	now()
+    )
+  </insert>
+  
+</mapper>
